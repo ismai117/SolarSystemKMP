@@ -38,3 +38,5 @@ fun App() = PlanetsKMPTheme {
         }
     }
 }
+
+expect fun openUrl(url: String?)

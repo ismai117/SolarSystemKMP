@@ -43,6 +43,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import getPlatform
 import main.planets.domain.domain.Planet
+import openUrl
 import org.koin.compose.koinInject
 
 
@@ -617,7 +618,7 @@ fun PlanetDetailScreenContent(
                                             )
                                             IconButton(
                                                 onClick = {
-
+                                                    openUrl(planet.wikiLink)
                                                 },
                                                 modifier = modifier
                                                     .padding(end = 16.dp)
