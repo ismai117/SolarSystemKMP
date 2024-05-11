@@ -7,7 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import main.MainScreen
 
-
 @Composable
 fun RootNavigation(
     navController: NavController
