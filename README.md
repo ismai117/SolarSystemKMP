@@ -2,7 +2,7 @@
 
 Explore the wonders of our solar system! Discover detailed information about each planet, from Mercury to Neptune
 
-Supported Platforms
+## Supported Platforms
 - Android
 - IOS
 - Web (Js & Wasm)
@@ -10,7 +10,7 @@ Supported Platforms
 
 Web App - Live [View](https://ismai117.github.io/SolarSystemKMP/)
 
-Stack
+## Stack
 - 🍎 Shared UI - [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform)
 - 🚏 Navigation - [Androidx](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation-routing.html#sample-project)
 - 🏗 ViewModel - [Androidx](https://touchlab.co/kmp-viewmodel)
