@@ -1,6 +1,7 @@
 package main.planets.presentation
 
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -34,6 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -72,35 +75,55 @@ fun PlanetsListScreenContent(
         contentWindowInsets = WindowInsets(0.dp)
     ) { paddingValues ->
 
-        BoxWithConstraints(
+        Box(
             modifier = modifier
                 .padding(paddingValues)
                 .fillMaxSize(),
         ) {
 
-            if (getPlatform().isMobile) {
+            LazyRow(
+                modifier = modifier.fillMaxSize(),
+                state = lazyListState,
+                userScrollEnabled = false
+            ) {
 
-                LazyColumn(
-                    modifier = modifier.fillMaxSize(),
-                    state = lazyListState,
-                    userScrollEnabled = false
-                ) {
+                itemsIndexed(
+                    items = state.planets
+                ) { index, planet ->
 
-                    itemsIndexed(
-                        items = state.planets
-                    ) { index, planet ->
+                    Column(
+                        modifier = modifier
+                            .fillParentMaxWidth()
+                            .fillMaxHeight(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
 
-                        Column(
+                        Box(
                             modifier = modifier
                                 .fillMaxWidth()
-                                .fillParentMaxHeight()
-//                            .border(width = 1.dp, color = Color.White)
+                                .height(400.dp)
+//                                        .border(width = 1.dp, color = Color.White),
+                        ) {
+                            AsyncImage(
+                                modifier = modifier.fillMaxSize(),
+                                model = planet.img,
+                                contentDescription = planet.imgDescription,
+                                contentScale = ContentScale.Fit
+                            )
+                        }
+
+                        Spacer(modifier = modifier.padding(24.dp))
+
+                        Row(
+                            modifier = modifier
+                                .width(324.dp)
                         ) {
 
                             Box(
                                 modifier = modifier
-                                    .fillMaxWidth()
-                                    .height(90.dp),
+                                    .padding(start = 16.dp)
+                                    .size(50.dp),
 //                                .border(width = 1.dp, color = Color.White),
                                 contentAlignment = Alignment.Center
                             ) {
@@ -114,81 +137,47 @@ fun PlanetsListScreenContent(
                                         }
                                     ) {
                                         Icon(
-                                            imageVector = Icons.Outlined.ArrowCircleUp,
+                                            imageVector = Icons.Outlined.ArrowCircleLeft,
                                             contentDescription = null,
-                                            modifier = modifier
-                                                .size(100.dp)
+                                            modifier = modifier.fillMaxSize()
                                         )
                                     }
                                 }
 
                             }
 
-                            Box(
+                            Column(
                                 modifier = modifier
-                                    .fillMaxWidth()
                                     .weight(1f),
-//                                .border(width = 1.dp, color = Color.White),
-                                contentAlignment = Alignment.Center
+//                                        .border(width = 1.dp, color = Color.White),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
                             ) {
+                                Text(
+                                    text = planet.name,
+                                    fontSize = 32.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
 
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
+                                Spacer(modifier = modifier.padding(12.dp))
 
-                                    Box(
-                                        modifier = modifier
-                                            .fillMaxWidth()
-                                            .height(400.dp)
-//                                        .border(width = 1.dp, color = Color.White),
-                                    ) {
-                                        AsyncImage(
-                                            modifier = modifier.fillMaxSize(),
-                                            model = planet.img,
-                                            contentDescription = planet.imgDescription,
-                                            contentScale = ContentScale.Fit
-                                        )
+                                OutlinedButton(
+                                    onClick = {
+                                        navigateToPlanetDetailScreen(planet.planetId)
                                     }
-
-                                    Spacer(modifier = modifier.padding(16.dp))
-
-                                    Column(
-                                        modifier = modifier
-                                            .fillMaxWidth(),
-//                                        .border(width = 1.dp, color = Color.White),
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.Center
-                                    ) {
-                                        Text(
-                                            text = planet.name,
-                                            fontSize = 32.sp,
-                                            fontWeight = FontWeight.Bold
-                                        )
-
-                                        Spacer(modifier = modifier.padding(8.dp))
-
-                                        OutlinedButton(
-                                            onClick = {
-                                                navigateToPlanetDetailScreen(planet.planetId)
-                                            }
-                                        ){
-                                            Text(
-                                                text = "View",
-                                                fontWeight = FontWeight.Bold
-                                            )
-                                        }
-
-                                    }
-
+                                ){
+                                    Text(
+                                        text = "View",
+                                        fontWeight = FontWeight.Bold
+                                    )
                                 }
 
                             }
 
                             Box(
                                 modifier = modifier
-                                    .fillMaxWidth()
-                                    .height(90.dp),
+                                    .padding(end = 16.dp)
+                                    .size(50.dp),
 //                                .border(width = 1.dp, color = Color.White),
                                 contentAlignment = Alignment.Center
                             ) {
@@ -204,10 +193,9 @@ fun PlanetsListScreenContent(
                                         }
                                     ) {
                                         Icon(
-                                            imageVector = Icons.Outlined.ArrowCircleDown,
+                                            imageVector = Icons.Outlined.ArrowCircleRight,
                                             contentDescription = null,
-                                            modifier = modifier
-                                                .size(100.dp)
+                                            modifier = modifier.fillMaxSize()
                                         )
                                     }
                                 }
@@ -216,298 +204,9 @@ fun PlanetsListScreenContent(
 
                         }
 
-
-                    }
-                }
-
-            } else {
-
-                if (maxWidth < 740.dp) {
-
-                    LazyColumn(
-                        modifier = modifier.fillMaxSize(),
-                        state = lazyListState,
-                        userScrollEnabled = false
-                    ) {
-
-                        itemsIndexed(
-                            items = state.planets
-                        ) { index, planet ->
-
-                            Column(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .fillParentMaxHeight()
-//                            .border(width = 1.dp, color = Color.White)
-                            ) {
-
-                                Box(
-                                    modifier = modifier
-                                        .fillMaxWidth()
-                                        .height(90.dp),
-//                                .border(width = 1.dp, color = Color.White),
-                                    contentAlignment = Alignment.Center
-                                ) {
-
-                                    if (index > 0) {
-                                        IconButton(
-                                            onClick = {
-                                                scope.launch {
-                                                    lazyListState.animateScrollToItem(index - 1)
-                                                }
-                                            }
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Outlined.ArrowCircleUp,
-                                                contentDescription = null,
-                                                modifier = modifier
-                                                    .size(100.dp)
-                                            )
-                                        }
-                                    }
-
-                                }
-
-                                Box(
-                                    modifier = modifier
-                                        .fillMaxWidth()
-                                        .weight(1f),
-//                                .border(width = 1.dp, color = Color.White),
-                                    contentAlignment = Alignment.Center
-                                ) {
-
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.Center
-                                    ) {
-
-                                        Box(
-                                            modifier = modifier
-                                                .fillMaxWidth()
-                                                .height(400.dp)
-//                                        .border(width = 1.dp, color = Color.White),
-                                        ) {
-                                            AsyncImage(
-                                                modifier = modifier.fillMaxSize(),
-                                                model = planet.img,
-                                                contentDescription = planet.imgDescription,
-                                                contentScale = ContentScale.Fit
-                                            )
-                                        }
-
-                                        Spacer(modifier = modifier.padding(16.dp))
-
-                                        Column(
-                                            modifier = modifier
-                                                .fillMaxWidth(),
-//                                        .border(width = 1.dp, color = Color.White),
-                                            horizontalAlignment = Alignment.CenterHorizontally,
-                                            verticalArrangement = Arrangement.Center
-                                        ) {
-                                            Text(
-                                                text = planet.name,
-                                                fontSize = 32.sp,
-                                                fontWeight = FontWeight.Bold
-                                            )
-
-                                            Spacer(modifier = modifier.padding(8.dp))
-
-                                            OutlinedButton(
-                                                onClick = {
-                                                    navigateToPlanetDetailScreen(planet.planetId)
-                                                }
-                                            ){
-                                                Text(
-                                                    text = "View",
-                                                    fontWeight = FontWeight.Bold
-                                                )
-                                            }
-
-                                        }
-
-                                    }
-
-                                }
-
-                                Box(
-                                    modifier = modifier
-                                        .fillMaxWidth()
-                                        .height(90.dp),
-//                                .border(width = 1.dp, color = Color.White),
-                                    contentAlignment = Alignment.Center
-                                ) {
-
-                                    if (planet != state.planets.last()) {
-                                        IconButton(
-                                            onClick = {
-                                                scope.launch {
-                                                    val currentIndex = state.planets.indexOf(planet)
-                                                    val nextIndex = if (currentIndex < state.planets.size - 1) currentIndex + 1 else 0
-                                                    lazyListState.animateScrollToItem(nextIndex)
-                                                }
-                                            }
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Outlined.ArrowCircleDown,
-                                                contentDescription = null,
-                                                modifier = modifier
-                                                    .size(100.dp)
-                                            )
-                                        }
-                                    }
-
-                                }
-
-                            }
-
-
-                        }
-                    }
-
-                } else {
-
-                    LazyRow(
-                        modifier = modifier.fillMaxSize(),
-                        state = lazyListState,
-                        userScrollEnabled = false
-                    ) {
-
-                        itemsIndexed(
-                            items = state.planets
-                        ) { index, planet ->
-
-                            Row(
-                                modifier = modifier
-                                    .fillParentMaxWidth()
-                                    .fillMaxHeight()
-//                            .border(width = 1.dp, color = Color.White)
-                            ) {
-
-                                Box(
-                                    modifier = modifier
-                                        .width(100.dp)
-                                        .fillMaxHeight(),
-//                                .border(width = 1.dp, color = Color.White),
-                                    contentAlignment = Alignment.Center
-                                ) {
-
-                                    if (index > 0) {
-                                        IconButton(
-                                            onClick = {
-                                                scope.launch {
-                                                    lazyListState.animateScrollToItem(index - 1)
-                                                }
-                                            }
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Outlined.ArrowCircleLeft,
-                                                contentDescription = null,
-                                                modifier = modifier
-                                                    .size(100.dp)
-                                            )
-                                        }
-                                    }
-
-                                }
-
-                                Box(
-                                    modifier = modifier
-                                        .weight(1f)
-                                        .fillMaxHeight(),
-//                                .border(width = 1.dp, color = Color.White),
-                                    contentAlignment = Alignment.Center
-                                ) {
-
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.Center
-                                    ) {
-
-                                        Box(
-                                            modifier = modifier
-                                                .fillMaxWidth()
-                                                .height(400.dp)
-//                                        .border(width = 1.dp, color = Color.White),
-                                        ) {
-                                            AsyncImage(
-                                                modifier = modifier.fillMaxSize(),
-                                                model = planet.img,
-                                                contentDescription = planet.imgDescription,
-                                                contentScale = ContentScale.Fit
-                                            )
-                                        }
-
-                                        Spacer(modifier = modifier.padding(24.dp))
-
-                                        Column(
-                                            modifier = modifier
-                                                .fillMaxWidth(),
-//                                        .border(width = 1.dp, color = Color.White),
-                                            horizontalAlignment = Alignment.CenterHorizontally,
-                                            verticalArrangement = Arrangement.Center
-                                        ) {
-                                            Text(
-                                                text = planet.name,
-                                                fontSize = 32.sp,
-                                                fontWeight = FontWeight.Bold
-                                            )
-
-                                            Spacer(modifier = modifier.padding(12.dp))
-
-                                            OutlinedButton(
-                                                onClick = {
-                                                    navigateToPlanetDetailScreen(planet.planetId)
-                                                }
-                                            ){
-                                                Text(
-                                                    text = "View",
-                                                    fontWeight = FontWeight.Bold
-                                                )
-                                            }
-
-                                        }
-
-                                    }
-
-                                }
-
-                                Box(
-                                    modifier = modifier
-                                        .width(100.dp)
-                                        .fillMaxHeight(),
-//                                .border(width = 1.dp, color = Color.White),
-                                    contentAlignment = Alignment.Center
-                                ) {
-
-                                    if (planet != state.planets.last()) {
-                                        IconButton(
-                                            onClick = {
-                                                scope.launch {
-                                                    val currentIndex = state.planets.indexOf(planet)
-                                                    val nextIndex = if (currentIndex < state.planets.size - 1) currentIndex + 1 else 0
-                                                    lazyListState.animateScrollToItem(nextIndex)
-                                                }
-                                            }
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Outlined.ArrowCircleRight,
-                                                contentDescription = null,
-                                                modifier = modifier
-                                                    .size(100.dp)
-                                            )
-                                        }
-                                    }
-
-                                }
-
-                            }
-
-
-                        }
                     }
 
                 }
-
             }
 
             if (state.isLoading) {
