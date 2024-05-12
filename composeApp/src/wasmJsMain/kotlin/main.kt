@@ -9,6 +9,8 @@ import org.w3c.dom.events.Event
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-    CanvasBasedWindow(canvasElementId = "ComposeTarget") { App() }
+    CanvasBasedWindow("SolarSystem") {
+        App()
+    }
 }
 

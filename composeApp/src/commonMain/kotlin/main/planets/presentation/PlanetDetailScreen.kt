@@ -427,7 +427,7 @@ fun PlanetDetailScreenContent(
                                     )
                                     IconButton(
                                         onClick = {
-
+                                            openUrl(planet.wikiLink)
                                         },
                                         modifier = modifier
                                             .padding(end = 16.dp)
@@ -476,8 +476,8 @@ fun PlanetDetailScreenContent(
                         ),
                         windowInsets = WindowInsets(0.dp),
 //                modifier = modifier.border(width = 1.dp, color = Color.White)
-                                modifier = modifier
-                                .padding(top = if (getPlatform().type == Platforms.DESKTOP) 24.dp else 0.dp)
+                        modifier = modifier
+                            .padding(top = if (getPlatform().type == Platforms.DESKTOP) 24.dp else 0.dp)
 
                     )
 
