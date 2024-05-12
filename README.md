@@ -1,22 +1,43 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop.
+<H1>SolarSystemKMP</H1>
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+Explore the wonders of our solar system! Discover detailed information about each planet, from Mercury to Neptune
 
-* `/iosApp` contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform, 
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+Supported Platforms
+- Android
+- IOS
+- Web (Wasm)
+- Desktop
+
+Web App - Live [View](https://ismai117.github.io/SolarSystemKMP/)
 
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+##
 
-**Note:** Compose/Web is Experimental and may be changed at any time. Use it only for evaluation purposes.
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [GitHub](https://github.com/JetBrains/compose-multiplatform/issues).
-
-You can open the web application by running the `:composeApp:wasmJsBrowserDevelopmentRun` Gradle task.
+<pre>
+<h2 align="center">Android</h2>
+</pre>
+<p align="center">
+  <img src="readme-images/android/planets-list.png" height=600>
+  <img src="readme-images/android/planet-detail" height=600>
+</p>
+<pre>  
+<h2 align="center">IOS</h2>
+</pre>
+<p align="center">
+  <img src="readme-images/ios/planets-list.png" height=600>
+  <img src="readme-images/ios/planet-detail" height=600>
+</p>
+<pre> 
+<h2 align="center">Desktop</h2>
+</pre>
+<p align="center">
+  <img src="readme-images/desktop/planets-list.png">
+  <img src="readme-images/desktop/planet-detail">
+</p>
+<pre> 
+<h2 align="center">Web</h2>
+</pre>
+<p align="center">
+  <img src="readme-images/web/planets-list.png">
+  <img src="readme-images/web/planet-detail">
+</p>
