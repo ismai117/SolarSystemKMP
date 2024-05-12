@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
-//    alias(libs.plugins.ksp)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.buildConfig)
 }
@@ -22,18 +22,12 @@ kotlin {
         browser {
             commonWebpackConfig {
                 outputFileName = "composeApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(project.projectDir.path)
-                    }
-                }
             }
         }
         binaries.executable()
     }
 
-    js(IR){
+    js(){
         browser()
         binaries.executable()
     }
@@ -64,6 +58,11 @@ kotlin {
     }
 
     sourceSets {
+
+        all {
+            languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
+        }
+
         val desktopMain by getting
 
         androidMain.dependencies {

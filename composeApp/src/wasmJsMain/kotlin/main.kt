@@ -11,3 +11,4 @@ import org.w3c.dom.events.Event
 fun main() {
     CanvasBasedWindow(canvasElementId = "ComposeTarget") { App() }
 }
+

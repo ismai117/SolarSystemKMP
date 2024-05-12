@@ -13,10 +13,10 @@ androidx-test-junit = "1.1.5"
 androidx-lifecycle = "2.8.0-rc01"
 androidx-navigation = "2.7.0-alpha04"
 compose = "1.6.7"
-compose-plugin = "1.6.10-rc01"
+compose-plugin = "1.6.10-dev1613"
 junit = "4.13.2"
-kotlin = "2.0.0-RC3"
-#ksp = "2.0.0-RC2-1.0.20"
+kotlin = "2.0.0-RC2"
+ksp = "2.0.0-RC2-1.0.20"
 ktor = "3.0.0-wasm2"
 koin = "3.6.0-alpha3"
 koinCompose = "3.6.0-alpha3"
@@ -90,6 +90,6 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-#ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
