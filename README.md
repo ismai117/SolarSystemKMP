@@ -15,10 +15,10 @@ Web App - Live [View](https://ismai117.github.io/SolarSystemKMP/)
 - 🚏 Navigation - [Androidx](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation-routing.html#sample-project)
 - 🏗 ViewModel - [Androidx](https://touchlab.co/kmp-viewmodel)
 - 🌎 Network - [Ktor](https://github.com/ktorio/ktor)
-- 📦 Storage = [KStore](https://github.com/xxfast/KStore)
-- 💉 Dependecy Injection [Koin](https://github.com/InsertKoinIO/koin)
-- 🛢 Image Loading [Coil](https://github.com/coil-kt/coil)
-- 📋 Logging [Napier](https://github.com/AAkira/Napier)
+- 📦 Storage - [KStore](https://github.com/xxfast/KStore)
+- 💉 Dependecy Injection - [Koin](https://github.com/InsertKoinIO/koin)
+- 🛢 Image Loading - [Coil](https://github.com/coil-kt/coil)
+- 📋 Logging - [Napier](https://github.com/AAkira/Napier)
 
 ##
 
