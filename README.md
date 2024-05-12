@@ -5,7 +5,7 @@ Explore the wonders of our solar system! Discover detailed information about eac
 Supported Platforms
 - Android
 - IOS
-- Web (Wasm)
+- Web (Js & Wasm)
 - Desktop
 
 Web App - Live [View](https://ismai117.github.io/SolarSystemKMP/)
