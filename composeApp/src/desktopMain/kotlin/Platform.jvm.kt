@@ -3,7 +3,8 @@ import kotlinx.coroutines.Dispatchers
 
 class JVMPlatform: Platform {
     override val name: String = "Java ${System.getProperty("java.version")}"
-    override val type: Platforms  = Platforms.NON_MOBILE
+    override val type: Platforms = Platforms.DESKTOP
+    override val isMobile: Boolean = false
     override val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 }
 

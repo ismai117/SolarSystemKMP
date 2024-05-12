@@ -1,5 +1,6 @@
 package main.planets.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -79,7 +80,7 @@ fun PlanetDetailScreenContent(
 
     val scrollState = rememberScrollState()
 
-    if (getPlatform().type == Platforms.MOBILE) {
+    if (getPlatform().isMobile) {
 
         Column(
             modifier = modifier
@@ -111,8 +112,8 @@ fun PlanetDetailScreenContent(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent
                 ),
-                windowInsets = WindowInsets(0.dp)
-//                modifier = modifier.border(width = 1.dp, color = Color.White)
+                windowInsets = WindowInsets(0.dp),
+//                modifier = modifier.border(width = 1.dp, color = Color.White),
             )
 
             Box(
@@ -298,8 +299,10 @@ fun PlanetDetailScreenContent(
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = Color.Transparent
                         ),
-                        windowInsets = WindowInsets(0.dp)
+                        windowInsets = WindowInsets(0.dp),
 //                modifier = modifier.border(width = 1.dp, color = Color.White)
+                        modifier = modifier
+                            .padding(top = if (getPlatform().type == Platforms.DESKTOP) 24.dp else 0.dp)
                     )
 
                     Box(
@@ -471,10 +474,12 @@ fun PlanetDetailScreenContent(
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = Color.Transparent
                         ),
-                        windowInsets = WindowInsets(0.dp)
+                        windowInsets = WindowInsets(0.dp),
 //                modifier = modifier.border(width = 1.dp, color = Color.White)
-                    )
+                                modifier = modifier
+                                .padding(top = if (getPlatform().type == Platforms.DESKTOP) 24.dp else 0.dp)
 
+                    )
 
                     Row(
                         modifier = modifier

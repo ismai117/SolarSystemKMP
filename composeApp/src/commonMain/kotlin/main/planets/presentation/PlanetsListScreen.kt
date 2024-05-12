@@ -77,7 +77,7 @@ fun PlanetsListScreenContent(
                 .fillMaxSize(),
         ) {
 
-            if (getPlatform().type == Platforms.MOBILE) {
+            if (getPlatform().isMobile) {
 
                 LazyColumn(
                     modifier = modifier.fillMaxSize(),

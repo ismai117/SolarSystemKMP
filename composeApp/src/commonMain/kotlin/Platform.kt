@@ -2,13 +2,17 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
 enum class Platforms {
-    MOBILE,
-    NON_MOBILE
+    ANDROID,
+    IOS,
+    DESKTOP,
+    WEB_JS,
+    WEB_WASM
 }
 
 interface Platform {
     val name: String
     val type: Platforms
+    val isMobile: Boolean
     val coroutineDispatcher: CoroutineDispatcher
 }
 
