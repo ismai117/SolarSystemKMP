@@ -1,7 +1,6 @@
 package main.planets.presentation
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -26,7 +25,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -36,11 +34,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import getPlatform
 import main.planets.domain.domain.Planet
@@ -89,31 +86,9 @@ fun PlanetDetailScreenContent(
 //                .border(width = 1.dp, color = Color.White)
         ) {
 
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = planet.name,
-                        fontSize = 36.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            navigateBack()
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = null
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
-                ),
-                windowInsets = WindowInsets(0.dp),
-//                modifier = modifier.border(width = 1.dp, color = Color.White),
+            TopBar(
+                name = planet.name,
+                navigateBack = navigateBack
             )
 
             Box(
@@ -122,6 +97,7 @@ fun PlanetDetailScreenContent(
                     .size(300.dp)
                     .clip(CircleShape)
                     .align(Alignment.CenterHorizontally)
+                    .parallaxLayoutModifier(scrollState, 2)
 //                                        .border(width = 1.dp, color = Color.White),
             ) {
                 AsyncImage(
@@ -161,6 +137,35 @@ fun PlanetDetailScreenContent(
                         .fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
+
+                    OutlinedCard(
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .height(70.dp),
+                        colors = CardDefaults.outlinedCardColors(
+                            containerColor = Color.Transparent
+                        )
+                    ) {
+                        Box(
+                            modifier = modifier
+                                .fillMaxSize()
+                        ) {
+                            Text(
+                                text = "Order",
+                                fontSize = 16.sp,
+                                modifier = modifier
+                                    .padding(start = 16.dp)
+                                    .align(Alignment.CenterStart)
+                            )
+                            Text(
+                                text = planet.planetOrder.toString(),
+                                fontSize = 16.sp,
+                                modifier = modifier
+                                    .padding(end = 16.dp)
+                                    .align(Alignment.CenterEnd)
+                            )
+                        }
+                    }
 
                     OutlinedCard(
                         modifier = modifier
@@ -233,7 +238,7 @@ fun PlanetDetailScreenContent(
                                 .fillMaxSize()
                         ) {
                             Text(
-                                text = "Wiki",
+                                text = planet.source,
                                 fontSize = 16.sp,
                                 modifier = modifier
                                     .padding(start = 16.dp)
@@ -241,7 +246,7 @@ fun PlanetDetailScreenContent(
                             )
                             IconButton(
                                 onClick = {
-
+                                    openUrl(planet.wikiLink)
                                 },
                                 modifier = modifier
                                     .padding(end = 16.dp)
@@ -257,6 +262,7 @@ fun PlanetDetailScreenContent(
 
                 }
 
+
             }
 
         }
@@ -265,7 +271,6 @@ fun PlanetDetailScreenContent(
 
         BoxWithConstraints {
 
-            println("width: $maxWidth")
 
             if (maxWidth < 740.dp) {
 
@@ -276,33 +281,9 @@ fun PlanetDetailScreenContent(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    CenterAlignedTopAppBar(
-                        title = {
-                            Text(
-                                text = planet.name,
-                                fontSize = 36.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        },
-                        navigationIcon = {
-                            IconButton(
-                                onClick = {
-                                    navigateBack()
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                                    contentDescription = null
-                                )
-                            }
-                        },
-                        colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = Color.Transparent
-                        ),
-                        windowInsets = WindowInsets(0.dp),
-//                modifier = modifier.border(width = 1.dp, color = Color.White)
-                        modifier = modifier
-                            .padding(top = if (getPlatform().type == Platforms.DESKTOP) 24.dp else 0.dp)
+                    TopBar(
+                        name = planet.name,
+                        navigateBack = navigateBack
                     )
 
                     Box(
@@ -419,7 +400,7 @@ fun PlanetDetailScreenContent(
                                         .fillMaxSize()
                                 ) {
                                     Text(
-                                        text = "Wiki",
+                                        text = planet.source,
                                         fontSize = 16.sp,
                                         modifier = modifier
                                             .padding(start = 16.dp)
@@ -451,34 +432,9 @@ fun PlanetDetailScreenContent(
 
                 Column {
 
-                    CenterAlignedTopAppBar(
-                        title = {
-                            Text(
-                                text = planet.name,
-                                fontSize = 36.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        },
-                        navigationIcon = {
-                            IconButton(
-                                onClick = {
-                                    navigateBack()
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                                    contentDescription = null
-                                )
-                            }
-                        },
-                        colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = Color.Transparent
-                        ),
-                        windowInsets = WindowInsets(0.dp),
-//                modifier = modifier.border(width = 1.dp, color = Color.White)
-                        modifier = modifier
-                            .padding(top = if (getPlatform().type == Platforms.DESKTOP) 24.dp else 0.dp)
-
+                    TopBar(
+                        name = planet.name,
+                        navigateBack = navigateBack
                     )
 
                     Row(
@@ -501,8 +457,8 @@ fun PlanetDetailScreenContent(
                             ) {
                                 AsyncImage(
                                     modifier = modifier.fillMaxSize(),
-                                    model = planet.img,
-                                    contentDescription = planet.imgDescription,
+                                    model =  planet.img,
+                                    contentDescription =  planet.imgDescription,
                                     contentScale = ContentScale.Fit
                                 )
                             }
@@ -533,7 +489,7 @@ fun PlanetDetailScreenContent(
                                         fontWeight = FontWeight.Bold
                                     )
                                     Text(
-                                        text = planet.description,
+                                        text =  planet.description,
                                         fontSize = 16.sp
                                     )
                                 }
@@ -564,7 +520,7 @@ fun PlanetDetailScreenContent(
                                                     .align(Alignment.CenterStart)
                                             )
                                             Text(
-                                                text = planet.mass,
+                                                text =  planet.mass,
                                                 fontSize = 16.sp,
                                                 modifier = modifier
                                                     .padding(end = 16.dp)
@@ -615,7 +571,7 @@ fun PlanetDetailScreenContent(
                                                 .fillMaxSize()
                                         ) {
                                             Text(
-                                                text = "Wiki",
+                                                text = planet.source,
                                                 fontSize = 16.sp,
                                                 modifier = modifier
                                                     .padding(start = 16.dp)
@@ -654,3 +610,47 @@ fun PlanetDetailScreenContent(
     }
 
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TopBar(
+    modifier: Modifier = Modifier,
+    name: String,
+    navigateBack: () -> Unit
+){
+    CenterAlignedTopAppBar(
+        title = {
+            Text(
+                text = name,
+                fontSize = 36.sp,
+                fontWeight = FontWeight.Bold
+            )
+        },
+        navigationIcon = {
+            IconButton(
+                onClick = {
+                    navigateBack()
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    contentDescription = null
+                )
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.Transparent
+        ),
+        windowInsets = WindowInsets(0.dp),
+        modifier = modifier.padding(top = if (getPlatform().type == Platforms.DESKTOP) 24.dp else 0.dp)
+    )
+}
+
+fun Modifier.parallaxLayoutModifier(scrollState: ScrollState, rate: Int) =
+    layout { measurable, constraints ->
+        val placeable = measurable.measure(constraints)
+        val height = if (rate > 0) scrollState.value / rate else scrollState.value
+        layout(placeable.width, placeable.height) {
+            placeable.place(0, height)
+        }
+    }

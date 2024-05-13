@@ -17,31 +17,31 @@ import utils.networkBoundResource
 
 
 class PlanetsRepositoryImpl(
-     private val planetsRemoteService: PlanetsRemoteService,
-     private val planetsLocalService: PlanetsLocalService
-): PlanetsRepository {
+    private val planetsRemoteService: PlanetsRemoteService,
+    private val planetsLocalService: PlanetsLocalService
+) : PlanetsRepository {
 
-     override suspend fun getPlanets(): Flow<Resource<List<Planet>?>> {
-          return networkBoundResource(
-               query = {
-                    flowOf(planetsLocalService.selectAllPlanets()?.mapToDomainModelList())
-               },
-               fetch = {
-                    val request = planetsRemoteService.getPlanets()
-                    val response = request.body<List<PlanetDto>>()
-                    response.mapToDomainModelList()
-               },
-               saveFetchResult = {
-                    planetsLocalService.insert(it.mapFromDomainModelList())
-               },
-               shouldFetch = {
-                    it.isNullOrEmpty()
-               }
-          )
-     }
+    override suspend fun getPlanets(): Flow<Resource<List<Planet>?>> {
+        return networkBoundResource(
+            query = {
+                flowOf(planetsLocalService.selectAllPlanets()?.mapToDomainModelList())
+            },
+            fetch = {
+                val request = planetsRemoteService.getPlanets()
+                val response = request.body<List<PlanetDto>>()
+                response.mapToDomainModelList()
+            },
+            saveFetchResult = {
+                planetsLocalService.insertPlanets(it.mapFromDomainModelList())
+            },
+            shouldFetch = {
+                it.isNullOrEmpty()
+            }
+        )
+    }
 
-     override suspend fun getPlanetById(planetId: Int): Flow<Planet?> {
-          return flowOf(planetsLocalService.selectPlanetById(planetId)?.mapToDomainModel())
-     }
+    override suspend fun getPlanetById(planetId: Int): Flow<Planet?> {
+        return flowOf(planetsLocalService.selectPlanetById(planetId)?.mapToDomainModel())
+    }
 
 }

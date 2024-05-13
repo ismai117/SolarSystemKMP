@@ -5,19 +5,20 @@ import main.planets.data.local.model.PlanetEntity
 
 
 class PlanetsLocalService(
-    private val store: KStore<List<PlanetEntity>>
+    private val planets: KStore<List<PlanetEntity>>,
 ) {
+    // planets
 
     suspend fun selectAllPlanets(): List<PlanetEntity>? {
-        return store.get()
+        return planets.get()
     }
 
     suspend fun selectPlanetById(planetId: Int): PlanetEntity? {
-        return store.get()?.find { it.planetId == planetId }
+        return planets.get()?.find { it.planetId == planetId }
     }
 
-    suspend fun insert(planetEntity: List<PlanetEntity>) {
-        store.set(planetEntity)
+    suspend fun insertPlanets(planetEntity: List<PlanetEntity>) {
+        planets.set(planetEntity)
     }
 
 }
