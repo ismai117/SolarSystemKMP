@@ -157,10 +157,6 @@ compose.desktop {
     }
 }
 
-compose.experimental {
-    web.application {}
-}
-
 val properties = Properties().apply {
     load(project.rootProject.file("local.properties").inputStream())
 }

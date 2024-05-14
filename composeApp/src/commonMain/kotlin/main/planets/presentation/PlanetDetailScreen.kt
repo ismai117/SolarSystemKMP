@@ -342,6 +342,35 @@ fun PlanetDetailScreenContent(
                                         .fillMaxSize()
                                 ) {
                                     Text(
+                                        text = "Order",
+                                        fontSize = 16.sp,
+                                        modifier = modifier
+                                            .padding(start = 16.dp)
+                                            .align(Alignment.CenterStart)
+                                    )
+                                    Text(
+                                        text = planet.planetOrder.toString(),
+                                        fontSize = 16.sp,
+                                        modifier = modifier
+                                            .padding(end = 16.dp)
+                                            .align(Alignment.CenterEnd)
+                                    )
+                                }
+                            }
+
+                            OutlinedCard(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .height(70.dp),
+                                colors = CardDefaults.outlinedCardColors(
+                                    containerColor = Color.Transparent
+                                )
+                            ) {
+                                Box(
+                                    modifier = modifier
+                                        .fillMaxSize()
+                                ) {
+                                    Text(
                                         text = "Mass",
                                         fontSize = 16.sp,
                                         modifier = modifier
@@ -499,6 +528,35 @@ fun PlanetDetailScreenContent(
                                         .fillMaxWidth(),
                                     verticalArrangement = Arrangement.spacedBy(12.dp)
                                 ) {
+
+                                    OutlinedCard(
+                                        modifier = modifier
+                                            .fillMaxWidth()
+                                            .height(70.dp),
+                                        colors = CardDefaults.outlinedCardColors(
+                                            containerColor = Color.Transparent
+                                        )
+                                    ) {
+                                        Box(
+                                            modifier = modifier
+                                                .fillMaxSize()
+                                        ) {
+                                            Text(
+                                                text = "Order",
+                                                fontSize = 16.sp,
+                                                modifier = modifier
+                                                    .padding(start = 16.dp)
+                                                    .align(Alignment.CenterStart)
+                                            )
+                                            Text(
+                                                text = planet.planetOrder.toString(),
+                                                fontSize = 16.sp,
+                                                modifier = modifier
+                                                    .padding(end = 16.dp)
+                                                    .align(Alignment.CenterEnd)
+                                            )
+                                        }
+                                    }
 
                                     OutlinedCard(
                                         modifier = modifier
