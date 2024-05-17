@@ -56,10 +56,6 @@ kotlin {
 
     sourceSets {
 
-        all {
-            languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
-        }
-
         val desktopMain by getting
 
         androidMain.dependencies {
