@@ -1,7 +1,7 @@
 package main.planets.di
 
-import main.planets.data.local.service.PlanetsLocalService
-import main.planets.data.remote.service.PlanetsRemoteService
+import main.planets.data.local.PlanetsLocalService
+import main.planets.data.remote.PlanetsRemoteService
 import main.planets.data.repository.PlanetsRepositoryImpl
 import main.planets.domain.repository.PlanetsRepository
 import main.planets.presentation.PlanetsViewModel

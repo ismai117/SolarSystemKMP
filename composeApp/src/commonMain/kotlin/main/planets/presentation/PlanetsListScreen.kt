@@ -30,6 +30,8 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,7 +53,9 @@ fun PlanetsListScreen(
     val lazyListState = rememberLazyListState()
 
     val planetsViewModel = koinInject<PlanetsViewModel>()
-    val state = planetsViewModel.state
+    val planets by planetsViewModel.planets.collectAsState()
+
+    val isPlanetsLoading by planetsViewModel.isPlanetsLoading.collectAsState()
 
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp)
@@ -70,7 +74,7 @@ fun PlanetsListScreen(
             ) {
 
                 itemsIndexed(
-                    items = state.planets.sortedBy { it.planetOrder },
+                    items = planets.sortedBy { it.planetOrder },
                     key = { index, planet -> planet.planetId.hashCode() }
                 ) { index, planet ->
 
@@ -84,7 +88,7 @@ fun PlanetsListScreen(
                 }
             }
 
-            if (state.loading) {
+            if (isPlanetsLoading) {
                 CircularProgressIndicator(
                     modifier = modifier.align(Alignment.Center)
                 )

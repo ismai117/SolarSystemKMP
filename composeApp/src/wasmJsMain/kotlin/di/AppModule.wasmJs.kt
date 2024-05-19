@@ -2,7 +2,7 @@ package di
 
 import io.github.xxfast.kstore.KStore
 import io.github.xxfast.kstore.storage.storeOf
-import main.planets.data.local.model.PlanetEntity
+import main.planets.data.local.PlanetEntity
 import org.koin.core.module.Module
 import org.koin.dsl.module
 

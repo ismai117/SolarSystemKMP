@@ -4,7 +4,7 @@ import org.koin.core.module.Module
 import io.github.xxfast.kstore.KStore
 import io.github.xxfast.kstore.file.storeOf
 import io.github.xxfast.kstore.file.utils.FILE_SYSTEM
-import main.planets.data.local.model.PlanetEntity
+import main.planets.data.local.PlanetEntity
 import net.harawata.appdirs.AppDirsFactory
 import okio.Path.Companion.toPath
 import org.koin.dsl.module
