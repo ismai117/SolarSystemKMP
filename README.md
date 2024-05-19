@@ -2,6 +2,10 @@
 
 Explore the wonders of our solar system! Discover detailed information about each planet, from Mercury to Neptune
 
+<p align="center">
+  <img src="readme-images/banner/solar_system.png" height=200>
+</p>
+
 ## Supported Platforms
 - Android
 - IOS
