@@ -11,14 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import navigation.main.MainNavigation
 
-
 @Composable
 fun MainScreen(){
-    MainScreenContent()
-}
-
-@Composable
-fun MainScreenContent(){
 
     val navController = rememberNavController()
 
