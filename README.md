@@ -12,7 +12,7 @@ Explore the wonders of our solar system! Discover detailed information about eac
 - Web (Js & Wasm)
 - Desktop
 
-Web App - Live [View](https://ismai117.github.io/SolarSystemKMP/)
+Web App - Live [View](https://ismai117.github.io/SolarSystemKMP/) (Safari not working!)
 
 ## Stack
 - 🍎 Shared UI - [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform)
