@@ -1,43 +1,46 @@
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import com.android.build.api.dsl.ManagedVirtualDevice
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
-import java.util.Properties
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinx.serialization)
-    alias(libs.plugins.buildConfig)
 }
 
 kotlin {
 
-    js {
-        browser()
-        binaries.executable()
-    }
-
-    wasmJs {
-        browser()
-        binaries.executable()
-    }
-
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 
+
     jvm("desktop")
+
+    js() {
+        browser()
+        binaries.executable()
+    }
+
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs() {
+        moduleName = "composeApp"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+            }
+        }
+        binaries.executable()
+    }
+
 
     listOf(
         iosX64(),
@@ -47,9 +50,11 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            optimized = true
         }
     }
 
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
     compilerOptions {
         languageVersion.set(KotlinVersion.KOTLIN_2_0)
     }
@@ -62,9 +67,7 @@ kotlin {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.ktor.client.android)
             implementation(libs.koin.android)
-            implementation(libs.kstore.file)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -74,37 +77,28 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel.compose)
+            implementation(project(":shared"))
             implementation(libs.androidx.navigation.compose)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
-            implementation(libs.bundles.ktor.common)
-            implementation(libs.koin.core)
-            implementation(libs.koin.compose)
+            implementation(libs.ktor.client.core)
+            implementation(libs.bundles.koin.common)
             implementation(libs.napier)
             implementation(libs.bundles.coil.common)
-            implementation(libs.kstore)
+            implementation(libs.windowSizeClass)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
-            implementation(libs.ktor.client.java)
-            implementation(libs.kstore.file)
-            implementation(libs.harawata.appdirs)
-        }
-        iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
-            implementation(libs.kstore.file)
         }
         jsMain.dependencies {
             implementation(compose.html.core)
-            implementation(libs.ktor.client.js)
-            implementation(libs.kstore.storage)
-        }
-        wasmJsMain.dependencies {
-            implementation(libs.kstore.storage)
         }
     }
+}
+
+composeCompiler {
+    enableStrongSkippingMode = true
 }
 
 android {
@@ -151,16 +145,4 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
-}
-
-val properties = Properties().apply {
-    load(project.rootProject.file("local.properties").inputStream())
-}
-
-buildConfig {
-    buildConfigField(
-        type = "String",
-        name = "apiKey",
-        value = "\"${properties.getProperty("apiKey")}\""
-    )
 }

@@ -6,12 +6,7 @@ import org.jetbrains.skiko.wasm.onWasmReady
 fun main() {
     onWasmReady {
         CanvasBasedWindow("SolarSystemKMP") {
-            App()
-            if (getPlatform().isMobile){
-                println("is mobile mode")
-            } else {
-                println("is web mode")
-            }
+            App(disableDiskCache = true)
         }
     }
 }
