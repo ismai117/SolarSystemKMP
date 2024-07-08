@@ -54,3 +54,10 @@ Web App - Live [View](https://ismai117.github.io/SolarSystemKMP/) (Safari not wo
   <img src="readme-images/web/planets.png">
   <img src="readme-images/web/planet-detail.png">
 </p>
+<pre>
+<h2 align="center">Web Mobile</h2>
+</pre>
+<p align="center">
+  <img src="readme-images/web-mobile/planets.png" height=600>
+  <img src="readme-images/web-mobile/planet-detail.png" height=600>
+</p>
