@@ -5,6 +5,8 @@ import kotlinx.browser.document
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-    ComposeViewport(document.body!!) { App(disableDiskCache = true) }
+    ComposeViewport(document.body!!) {
+        App(disableDiskCache = true)
+    }
 }
 

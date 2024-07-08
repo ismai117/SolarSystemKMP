@@ -22,22 +22,20 @@ kotlin {
         }
     }
 
-
     jvm("desktop")
 
-    js(IR) {
+    js() {
+        browser()
+        binaries.executable()
+    }
+
+    wasmJs {
         moduleName = "composeApp"
         browser {
             commonWebpackConfig {
                 outputFileName = "composeApp.js"
             }
         }
-        binaries.executable()
-    }
-
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
         binaries.executable()
     }
 
