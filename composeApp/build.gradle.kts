@@ -2,8 +2,6 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -48,7 +46,6 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
-            optimized = true
         }
     }
 
@@ -79,10 +76,10 @@ kotlin {
             implementation(libs.androidx.navigation.compose)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
-            implementation(libs.ktor.client.core)
+            implementation(libs.bundles.ktor.common)
             implementation(libs.bundles.koin.common)
-            implementation(libs.napier)
             implementation(libs.bundles.coil.common)
+            implementation(libs.napier)
             implementation(libs.windowSizeClass)
         }
         desktopMain.dependencies {
@@ -93,10 +90,6 @@ kotlin {
             implementation(compose.html.core)
         }
     }
-}
-
-composeCompiler {
-    enableStrongSkippingMode = true
 }
 
 android {
@@ -144,3 +137,5 @@ compose.desktop {
         }
     }
 }
+
+tasks.findByName("checkSandboxAndWriteProtection")?.dependsOn("syncComposeResourcesForIos")

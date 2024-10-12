@@ -172,15 +172,7 @@ fun SharedTransitionScope.PageItem(
             Text(
                 text = planet.name,
                 fontSize = 36.sp,
-                fontWeight = FontWeight.Bold,
-//                modifier = modifier
-//                    .sharedElement(
-//                        state = rememberSharedContentState(key = "name/${planet.planetId}"),
-//                        animatedVisibilityScope = animatedVisibilityScope,
-//                        boundsTransform = { _, _ ->
-//                            tween(durationMillis = 1000)
-//                        }
-//                    ),
+                fontWeight = FontWeight.Bold
             )
 
             Spacer(modifier = modifier.padding(12.dp))
@@ -200,34 +192,6 @@ fun SharedTransitionScope.PageItem(
 
     }
 
-}
-
-@Composable
-fun PageIndicator(
-    modifier: Modifier = Modifier,
-    pageCount: Int,
-    currentPage: Int,
-){
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(24.dp),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        repeat(pageCount) { iteration ->
-            val color =
-                if (currentPage == iteration) Color.DarkGray else Color.LightGray
-            Box(
-                modifier = Modifier
-                    .padding(2.dp)
-                    .clip(RectangleShape)
-                    .background(color)
-                    .width(28.dp)
-                    .height(4.dp)
-            )
-        }
-    }
 }
 
 @Composable
@@ -252,6 +216,7 @@ fun PageNavigator(
                 contentDescription = null
             )
         }
+        Spacer(modifier = modifier.padding(8.dp))
         IconButton(
             onClick = { animateScrollToPage(currentPage - 1) }
         ) {
@@ -260,6 +225,7 @@ fun PageNavigator(
                 contentDescription = null
             )
         }
+        Spacer(modifier = modifier.padding(8.dp))
         IconButton(
             onClick = { animateScrollToPage(currentPage + 1) }
         ) {
@@ -268,6 +234,7 @@ fun PageNavigator(
                 contentDescription = null
             )
         }
+        Spacer(modifier = modifier.padding(8.dp))
         IconButton(
             onClick = { animateScrollToPage(lastIndex) }
         ) {
