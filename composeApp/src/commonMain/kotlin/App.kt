@@ -5,20 +5,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import coil3.annotation.ExperimentalCoilApi
-import coil3.asyncImageLoader
-import coil3.compose.setSingletonImageLoaderFactory
-import coil3.enableDiskCache
+import com.seiko.imageloader.LocalImageLoader
+import imageLoader.generateImageLoader
 import navigation.Navigation
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
 import planets.di.planetsModule
 import theme.PlanetsKMPTheme
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 @Preview
-fun App(disableDiskCache: Boolean = false) = PlanetsKMPTheme {
+fun App() = PlanetsKMPTheme {
 
     val navController = rememberNavController()
 
@@ -30,20 +27,18 @@ fun App(disableDiskCache: Boolean = false) = PlanetsKMPTheme {
             )
         }
     ){
-
-        setSingletonImageLoaderFactory { context ->
-            if (disableDiskCache) context.asyncImageLoader() else
-                context.asyncImageLoader().enableDiskCache()
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+        CompositionLocalProvider(
+            LocalImageLoader provides remember { generateImageLoader() },
         ) {
-            Navigation(
-                navController = navController
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
+            ) {
+                Navigation(
+                    navController = navController
+                )
+            }
         }
 
     }

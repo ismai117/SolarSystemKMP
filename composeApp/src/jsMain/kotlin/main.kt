@@ -1,12 +1,14 @@
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.window.CanvasBasedWindow
+import androidx.compose.ui.window.ComposeViewport
+import kotlinx.browser.document
 import org.jetbrains.skiko.wasm.onWasmReady
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
     onWasmReady {
-        CanvasBasedWindow("SolarSystemKMP") {
-            App(disableDiskCache = true)
+        val body = document.body ?: return@onWasmReady
+        ComposeViewport(body) {
+            App()
         }
     }
 }

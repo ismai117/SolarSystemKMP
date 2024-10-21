@@ -28,12 +28,7 @@ kotlin {
     }
 
     wasmJs {
-        moduleName = "composeApp"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-            }
-        }
+        browser()
         binaries.executable()
     }
 
@@ -78,9 +73,9 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.bundles.ktor.common)
             implementation(libs.bundles.koin.common)
-            implementation(libs.bundles.coil.common)
             implementation(libs.napier)
             implementation(libs.windowSizeClass)
+            api("io.github.qdsfdhvh:image-loader:1.9.0")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

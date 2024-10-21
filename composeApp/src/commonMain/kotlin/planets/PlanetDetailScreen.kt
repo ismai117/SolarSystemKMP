@@ -4,12 +4,11 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -45,13 +44,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.ImageLoader
-import coil3.compose.AsyncImage
+import com.seiko.imageloader.rememberImagePainter
 import getPlatform
 import org.koin.compose.koinInject
 import planets.domain.domain.Planet
@@ -173,7 +170,10 @@ private fun SharedTransitionScope.Mobile(
                 .parallaxLayoutModifier(scrollState, 2)
 //                                        .border(width = 1.dp, color = Color.White),
         ) {
-            ImageLoader(
+            val painter = rememberImagePainter(url = planet.img)
+            Image(
+                painter = painter,
+                contentDescription =  planet.imgDescription,
                 modifier = modifier
                     .fillMaxSize()
                     .sharedElement(
@@ -182,12 +182,9 @@ private fun SharedTransitionScope.Mobile(
                         boundsTransform = { _, _ ->
                             tween(durationMillis = 1000)
                         }
-                    ),
-                url =  planet.img,
-                description =  planet.imgDescription
+                    )
             )
         }
-
 
         Column(
             modifier = modifier
@@ -246,7 +243,10 @@ private fun SharedTransitionScope.NonMobile(
                         .sizeIn(maxWidth = 500.dp, maxHeight = 500.dp)
                         .clip(CircleShape)
                 ) {
-                    ImageLoader(
+                    val painter = rememberImagePainter(url = planet.img)
+                    Image(
+                        painter = painter,
+                        contentDescription = planet.imgDescription,
                         modifier = modifier
                             .fillMaxSize()
                             .sharedElement(
@@ -255,9 +255,7 @@ private fun SharedTransitionScope.NonMobile(
                                 boundsTransform = { _, _ ->
                                     tween(durationMillis = 1000)
                                 }
-                            ),
-                        url =  planet.img,
-                        description =  planet.imgDescription
+                            )
                     )
                 }
 

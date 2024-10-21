@@ -85,3 +85,6 @@ var wasmSetup = new Promise(function(resolve, reject) {
 });
 
 function onWasmReady(onReady) { wasmSetup.then(onReady); }
+
+// Warn about skiko.js redundancy in case of K/Wasm target:
+console.warn("Note: skiko.js is redundant in K/Wasm Compose for Web applications. Consider removing it from index.html, it will be removed from the distribution in next Compose Multiplatform versions");
