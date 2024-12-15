@@ -49,7 +49,6 @@ kotlin {
 
         androidMain.dependencies {
             implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.ktor.client.android)
             implementation(libs.koin.android)
             implementation(libs.kstore.file)
             implementation("androidx.startup:startup-runtime:1.1.1")
@@ -57,24 +56,23 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.serialization.core)
             implementation(libs.kotlinx.serialization.json)
-            implementation(libs.bundles.ktor.common)
+            implementation(libs.kotlinx.rpc.core)
+            implementation(libs.kotlinx.rpc.krpc.serialization.json)
+            implementation(libs.kotlinx.rpc.krpc.ktor.client)
             implementation(libs.bundles.koin.common)
             implementation(libs.napier)
             implementation(libs.kstore)
         }
         desktopMain.dependencies {
-            implementation(libs.kotlinx.coroutines.swing)
-            implementation(libs.ktor.client.java)
             implementation(libs.kstore.file)
             implementation(libs.harawata.appdirs)
         }
         iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
             implementation(libs.kstore.file)
         }
         jsMain.dependencies {
-            implementation(libs.ktor.client.js)
             implementation(libs.kstore.storage)
         }
         wasmJsMain.dependencies {

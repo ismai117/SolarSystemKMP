@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import okio.Path.Companion.toPath
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import planets.data.local.PlanetEntity
+import planets.domain.domain.Planet
 
 class AndroidPlatform : Platform {
     override val name: String = "android"
@@ -27,8 +27,10 @@ class AndroidPlatform : Platform {
 actual fun getPlatform(): Platform = AndroidPlatform()
 
 actual fun kstoreModule(): Module = module {
-    single<KStore<List<PlanetEntity>>> {
+    single<KStore<List<Planet>>> {
         val filesDir: String = applicationContext.filesDir.path
         storeOf(file = "$filesDir/planets.json".toPath(), default = emptyList())
     }
 }
+
+actual val DEV_SERVER_HOST: String = "10.0.2.2"

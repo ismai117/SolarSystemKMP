@@ -10,6 +10,6 @@ import planets.viewmodel.PlanetsViewModel
 val planetsModule = module {
     single { PlanetsRemoteService() }
     single { PlanetsLocalService(get()) }
-    single<PlanetsRepository> {  PlanetsRepositoryImpl(get(), get()) }
+    single<PlanetsRepository> { PlanetsRepositoryImpl(get(), get()) }
     factory { PlanetsViewModel(get()) }
 }

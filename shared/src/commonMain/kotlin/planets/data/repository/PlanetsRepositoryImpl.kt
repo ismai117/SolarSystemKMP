@@ -5,7 +5,6 @@ import planets.data.remote.PlanetsRemoteService
 import planets.domain.domain.Planet
 import planets.domain.repository.PlanetsRepository
 
-
 class PlanetsRepositoryImpl(
     private val remote: PlanetsRemoteService,
     private val local: PlanetsLocalService
@@ -20,5 +19,4 @@ class PlanetsRepositoryImpl(
     override suspend fun getPlanetById(planetId: Int): Planet? {
        return local.getPlanetById(planetId)
     }
-
 }

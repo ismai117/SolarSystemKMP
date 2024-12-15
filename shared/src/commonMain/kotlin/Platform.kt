@@ -16,3 +16,5 @@ interface Platform {
 expect fun getPlatform(): Platform
 
 expect fun kstoreModule(): Module
+
+expect val DEV_SERVER_HOST: String

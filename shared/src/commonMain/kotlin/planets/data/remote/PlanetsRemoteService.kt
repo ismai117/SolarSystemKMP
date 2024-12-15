@@ -1,54 +1,42 @@
 package planets.data.remote
 
-import SolarSystemKMP.shared.BuildConfig
-import io.github.aakira.napier.DebugAntilog
-import io.github.aakira.napier.Napier
+import DEV_SERVER_HOST
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.plugins.DefaultRequest
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.get
-import io.ktor.client.request.header
-import io.ktor.client.request.url
-import io.ktor.http.ContentType
-import io.ktor.http.HttpHeaders
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.json.Json
+import io.ktor.http.encodedPath
+import kotlinx.rpc.krpc.ktor.client.installRPC
+import kotlinx.rpc.krpc.ktor.client.rpc
+import kotlinx.rpc.krpc.ktor.client.rpcConfig
+import kotlinx.rpc.krpc.serialization.json.json
+import kotlinx.rpc.withService
 import planets.domain.domain.Planet
-
+import planets.domain.service.PlanetsService
 
 class PlanetsRemoteService() {
 
-    private val client = HttpClient {
-        install(ContentNegotiation) {
-            json(Json {
-                prettyPrint = true
-                isLenient = true
-            })
+    private val client by lazy {
+        HttpClient {
+            installRPC()
         }
-        install(Logging){
-            logger = object : Logger {
-                override fun log(message: String) {
-                    Napier.d("HTTP Client", null, message)
-                }
-            }
-            level = LogLevel.HEADERS
-        }
-        install(DefaultRequest) {
-            header(HttpHeaders.ContentType, ContentType.Application.Json)
-            header("X-RapidAPI-Key", value = BuildConfig.API_KEY)
-            header("X-RapidAPI-Host", value = "planets-info-by-newbapi.p.rapidapi.com")
-        }
-    }.also { Napier.base(DebugAntilog()) }
+    }
 
     suspend fun getPlanets(): List<Planet> {
-        val response = client.get {
-            url("https://planets-info-by-newbapi.p.rapidapi.com/api/v1/planets/")
-        }.body<List<PlanetDto>>()
-        return response.mapToDomainModelList()
+        return service().getPlanets() ?: emptyList()
+    }
+
+    private suspend fun service(): PlanetsService {
+        return client.rpc {
+            url {
+                host = DEV_SERVER_HOST
+                port = 8080
+                encodedPath = "/api"
+            }
+
+            rpcConfig {
+                serialization {
+                    json()
+                }
+            }
+        }.withService()
     }
 
 }

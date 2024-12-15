@@ -5,18 +5,20 @@ android-minSdk = "24"
 android-targetSdk = "34"
 androidx-activityCompose = "1.9.3"
 androidx-appcompat = "1.7.0"
-androidx-constraintlayout = "2.1.4"
-androidx-core-ktx = "1.13.1"
+androidx-constraintlayout = "2.2.0"
+androidx-core-ktx = "1.15.0"
 androidx-espresso-core = "3.6.1"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
-androidx-lifecycle = "2.8.0"
+androidx-lifecycle = "2.8.4"
 androidx-navigation = "2.7.0-alpha07"
-compose = "1.7.4"
-compose-plugin = "1.7.0"
+compose = "1.7.6"
+compose-plugin = "1.7.1"
 junit = "4.13.2"
 kotlin = "2.0.21"
-ktor = "3.0.0"
+ktor = "3.0.1"
+kotlinx-rpc = "0.4.0"
+logback = "1.5.11"
 koin = "4.0.0"
 koinComposeMultiplatform = "4.0.0"
 kotlinx-coroutines = "1.9.0"
@@ -60,12 +62,25 @@ ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.r
 ktor-client-java = { group = "io.ktor", name = "ktor-client-java", version.ref = "ktor" }
 ktor-client-js = { group = "io.ktor", name = "ktor-client-js", version.ref = "ktor" }
 
+ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
+ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
+kotlinx-rpc-core = { module = "org.jetbrains.kotlinx:kotlinx-rpc-core", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-krpc-client = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-client", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-krpc-server = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-server", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-krpc-ktor-client = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-ktor-client", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-krpc-ktor-server = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-ktor-server", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-krpc-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-serialization-json", version.ref = "kotlinx-rpc" }
+
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 
@@ -90,6 +105,9 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+kotlinx-rpc = { id = "org.jetbrains.kotlinx.rpc.plugin", version.ref = "kotlinx-rpc" }

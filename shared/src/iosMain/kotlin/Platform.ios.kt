@@ -8,7 +8,7 @@ import kotlinx.coroutines.IO
 import okio.Path.Companion.toPath
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import planets.data.local.PlanetEntity
+import planets.domain.domain.Planet
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
@@ -27,9 +27,11 @@ actual fun getPlatform(): Platform = IOSPlatform()
 
 @OptIn(ExperimentalKStoreApi::class)
 actual fun kstoreModule(): Module = module {
-    single<KStore<List<PlanetEntity>>> {
+    single<KStore<List<Planet>>> {
         val filesDir: String? = NSFileManager.defaultManager.DocumentDirectory?.relativePath
         requireNotNull(filesDir) { "Document directory not found" }
         storeOf(file = "$filesDir/planets.json".toPath(), default = emptyList())
     }
 }
+
+actual val DEV_SERVER_HOST: String = "127.0.0.1"
