@@ -10,26 +10,29 @@ androidx-core-ktx = "1.13.1"
 androidx-espresso-core = "3.6.1"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
-androidx-lifecycle = "2.8.0"
+androidx-lifecycle = "2.8.4"
 androidx-navigation = "2.7.0-alpha07"
-compose = "1.7.4"
-compose-plugin = "1.7.0"
+compose = "1.7.6"
+compose-plugin = "1.7.3"
 junit = "4.13.2"
-kotlin = "2.0.21"
-ktor = "3.0.0"
+kotlin = "2.1.0"
+ktor = "3.0.3"
 koin = "4.0.0"
 koinComposeMultiplatform = "4.0.0"
 kotlinx-coroutines = "1.9.0"
 kotlinx-serialization = "1.7.3"
+logback = "1.5.12"
 napier = "2.7.1"
 coil3 = "3.0.0-rc01"
 buildConfig = "5.3.5"
 kstore = "0.8.0"
 harawata-appdirs = "1.2.2"
+startupRuntime = "1.2.0"
 windowSizeClasss = "0.5.0"
 
 
 [libraries]
+androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "startupRuntime" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -59,6 +62,15 @@ ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version
 ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
 ktor-client-java = { group = "io.ktor", name = "ktor-client-java", version.ref = "ktor" }
 ktor-client-js = { group = "io.ktor", name = "ktor-client-js", version.ref = "ktor" }
+
+ktor-serialization-kotlinx-json-jvm = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm" }
+ktor-server-call-logging-jvm = { module = "io.ktor:ktor-server-call-logging-jvm" }
+ktor-server-content-negotiation-jvm = { module = "io.ktor:ktor-server-content-negotiation-jvm" }
+ktor-server-core-jvm = { module = "io.ktor:ktor-server-core-jvm" }
+ktor-server-host-common-jvm = { module = "io.ktor:ktor-server-host-common-jvm" }
+ktor-server-netty-jvm = { module = "io.ktor:ktor-server-netty-jvm" }
+ktor-server-tests-jvm = { module = "io.ktor:ktor-server-tests-jvm" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
@@ -91,5 +103,7 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }

@@ -1,6 +1,7 @@
 rootProject.name = "SolarSystemKMP"
 include(":composeApp")
 include(":shared")
+include(":server")
 
 pluginManagement {
     repositories {

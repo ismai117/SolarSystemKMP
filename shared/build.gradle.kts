@@ -25,6 +25,7 @@ kotlin {
         binaries.executable()
     }
 
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs() {
         browser()
         binaries.executable()
@@ -52,7 +53,7 @@ kotlin {
             implementation(libs.ktor.client.android)
             implementation(libs.koin.android)
             implementation(libs.kstore.file)
-            implementation("androidx.startup:startup-runtime:1.1.1")
+            implementation(libs.androidx.startup.runtime)
         }
         commonMain.dependencies {
             implementation(libs.androidx.lifecycle.viewmodel.compose)
