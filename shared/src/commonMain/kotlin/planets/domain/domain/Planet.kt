@@ -1,6 +1,8 @@
 package planets.domain.domain
 
-@Ser
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Planet(
     val id: Int?,
     val planetId: Int,
