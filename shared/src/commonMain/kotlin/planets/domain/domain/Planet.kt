@@ -1,5 +1,6 @@
 package planets.domain.domain
 
+@Ser
 data class Planet(
     val id: Int?,
     val planetId: Int,
