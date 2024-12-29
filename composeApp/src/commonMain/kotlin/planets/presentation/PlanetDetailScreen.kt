@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -41,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -59,7 +59,6 @@ fun SharedTransitionScope.PlanetDetailScreen(
     planetId: Int,
     navigateBack: () -> Unit
 ) {
-
     val planetsViewModel = koinInject<PlanetsViewModel>()
     val state by planetsViewModel.state.collectAsState()
 
@@ -74,7 +73,6 @@ fun SharedTransitionScope.PlanetDetailScreen(
             navigateBack = navigateBack
         )
     }
-
 }
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -85,197 +83,128 @@ fun SharedTransitionScope.PlanetDetailScreenContent(
     planet: Planet,
     navigateBack: () -> Unit
 ) {
-
     val windowAdaptiveInfo = currentWindowAdaptiveInfo()
     val isCompacted = windowAdaptiveInfo.windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT
 
     Scaffold { paddingValues ->
-
-        Box(
-            modifier = modifier.padding(paddingValues)
-        ) {
-
-            if (getPlatform().type == Type.MOBILE) {
-
-                Mobile(
+        Box(modifier = modifier.padding(paddingValues)) {
+            if (getPlatform().type == Type.MOBILE || isCompacted) {
+                PlanetDetailMobileContent(
                     animatedVisibilityScope = animatedVisibilityScope,
                     planet = planet,
                     navigateBack = navigateBack
                 )
-
             } else {
-
-                if(isCompacted){
-
-                    Mobile(
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        planet = planet,
-                        navigateBack = navigateBack
-                    )
-
-                } else {
-
-                    NonMobile(
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        planet = planet,
-                        navigateBack = navigateBack
-                    )
-
-                }
-
-
+                PlanetDetailNonMobileContent(
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    planet = planet,
+                    navigateBack = navigateBack
+                )
             }
-
         }
-
     }
-
 }
-
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-private fun SharedTransitionScope.Mobile(
+private fun SharedTransitionScope.PlanetDetailMobileContent(
     modifier: Modifier = Modifier,
     animatedVisibilityScope: AnimatedVisibilityScope,
     planet: Planet,
     navigateBack: () -> Unit
 ) {
-
     val scrollState = rememberScrollState()
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(scrollState)
-//                .border(width = 1.dp, color = Color.White)
+            .verticalScroll(scrollState),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        TopBar(
-            name = planet.name,
-            navigateBack = navigateBack
+        TopBar(name = planet.name, navigateBack = navigateBack)
+        PlanetImage(
+            modifier = modifier,
+            animatedVisibilityScope = animatedVisibilityScope,
+            planet = planet,
+            scrollState = scrollState
         )
-
-        Box(
-            modifier = modifier
-                .padding(top = 40.dp)
-                .size(300.dp)
-                .clip(CircleShape)
-                .align(Alignment.CenterHorizontally)
-                .parallaxLayoutModifier(scrollState, 2)
-//                                        .border(width = 1.dp, color = Color.White),
-        ) {
-            AsyncImage(
-                model =  planet.img,
-                contentDescription = planet.imgDescription,
-                modifier = modifier
-                    .fillMaxSize()
-                    .sharedElement(
-                        state = rememberSharedContentState(key = "image/${planet.planetId}"),
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        boundsTransform = { _, _ ->
-                            tween(durationMillis = 1000)
-                        }
-                    )
-            )
-        }
-
-        Column(
-            modifier = modifier
-                .padding(top = 32.dp)
-                .fillMaxWidth()
-        ) {
-
-            PlanetDetailItems(
-                planet = planet
-            )
-
-        }
-
-
+        PlanetDetailItems(planet = planet)
     }
-
 }
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-private fun SharedTransitionScope.NonMobile(
+private fun SharedTransitionScope.PlanetDetailNonMobileContent(
     modifier: Modifier = Modifier,
     animatedVisibilityScope: AnimatedVisibilityScope,
     planet: Planet,
     navigateBack: () -> Unit
-){
-
+) {
     val scrollState = rememberScrollState()
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-    ){
-
-        TopBar(
-            name = planet.name,
-            navigateBack = navigateBack
-        )
-
-        Row(
-            modifier = modifier
-                .fillMaxSize()
-        ) {
-
+    Column(modifier = modifier.fillMaxSize()) {
+        TopBar(name = planet.name, navigateBack = navigateBack)
+        Row(modifier = modifier.fillMaxSize()) {
             Box(
                 modifier = modifier
                     .weight(1f)
                     .fillMaxHeight(),
                 contentAlignment = Alignment.Center
             ) {
-
-                Box(
-                    modifier = modifier
-                        .sizeIn(maxWidth = 500.dp, maxHeight = 500.dp)
-                        .clip(CircleShape)
-                ) {
-                    AsyncImage(
-                        model =  planet.img,
-                        contentDescription = planet.imgDescription,
-                        modifier = modifier
-                            .fillMaxSize()
-                            .sharedElement(
-                                state = rememberSharedContentState(key = "image/${planet.planetId}"),
-                                animatedVisibilityScope = animatedVisibilityScope,
-                                boundsTransform = { _, _ ->
-                                    tween(durationMillis = 1000)
-                                }
-                            )
-                    )
-                }
-
+                PlanetImage(
+                    modifier = modifier,
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    planet = planet,
+                    scrollState = scrollState
+                )
             }
-
             Box(
                 modifier = modifier
                     .weight(1f)
                     .fillMaxHeight()
                     .verticalScroll(scrollState)
             ) {
-
                 Column(
                     modifier = modifier
                         .padding(top = 80.dp, start = 24.dp, end = 24.dp)
                         .fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-
-                    PlanetDetailItems(
-                        planet = planet
-                    )
-
+                    PlanetDetailItems(planet = planet)
                 }
-
             }
-
         }
+    }
+}
 
+@OptIn(ExperimentalSharedTransitionApi::class)
+@Composable
+private fun SharedTransitionScope.PlanetImage(
+    modifier: Modifier = Modifier,
+    animatedVisibilityScope: AnimatedVisibilityScope,
+    planet: Planet,
+    scrollState: ScrollState
+) {
+    Box(
+        modifier = modifier
+            .padding(top = 40.dp)
+            .size(300.dp)
+            .clip(CircleShape)
+            .parallaxLayoutModifier(scrollState, 2)
+    ) {
+        AsyncImage(
+            model = planet.img,
+            contentDescription = planet.imgDescription,
+            modifier = modifier
+                .fillMaxSize()
+                .sharedElement(
+                    state = rememberSharedContentState(key = "image/${planet.planetId}"),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    boundsTransform = { _, _ ->
+                        tween(durationMillis = 1000)
+                    }
+                )
+        )
     }
 }
 
@@ -283,8 +212,7 @@ private fun SharedTransitionScope.NonMobile(
 private fun PlanetDetailItems(
     modifier: Modifier = Modifier,
     planet: Planet
-){
-
+) {
     Column(
         modifier = modifier
             .padding(16.dp)
@@ -308,132 +236,92 @@ private fun PlanetDetailItems(
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-
-        OutlinedCard(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(70.dp),
-            colors = CardDefaults.outlinedCardColors(
-                containerColor = Color.Transparent
-            )
-        ) {
-            Box(
-                modifier = modifier
-                    .fillMaxSize()
-            ) {
-                Text(
-                    text = "Order",
-                    fontSize = 16.sp,
-                    modifier = modifier
-                        .padding(start = 16.dp)
-                        .align(Alignment.CenterStart)
-                )
-                Text(
-                    text = planet.planetOrder.toString(),
-                    fontSize = 16.sp,
-                    modifier = modifier
-                        .padding(end = 16.dp)
-                        .align(Alignment.CenterEnd)
-                )
-            }
-        }
-
-        OutlinedCard(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(70.dp),
-            colors = CardDefaults.outlinedCardColors(
-                containerColor = Color.Transparent
-            )
-        ) {
-            Box(
-                modifier = modifier
-                    .fillMaxSize()
-            ) {
-                Text(
-                    text = "Mass",
-                    fontSize = 16.sp,
-                    modifier = modifier
-                        .padding(start = 16.dp)
-                        .align(Alignment.CenterStart)
-                )
-                Text(
-                    text = planet.mass,
-                    fontSize = 16.sp,
-                    modifier = modifier
-                        .padding(end = 16.dp)
-                        .align(Alignment.CenterEnd)
-                )
-            }
-        }
-
-        OutlinedCard(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(70.dp),
-            colors = CardDefaults.outlinedCardColors(
-                containerColor = Color.Transparent
-            )
-        ) {
-            Box(
-                modifier = modifier
-                    .fillMaxSize()
-            ) {
-                Text(
-                    text = "Volume",
-                    fontSize = 16.sp,
-                    modifier = modifier
-                        .padding(start = 16.dp)
-                        .align(Alignment.CenterStart)
-                )
-                Text(
-                    text = planet.volume,
-                    fontSize = 16.sp,
-                    modifier = modifier
-                        .padding(end = 16.dp)
-                        .align(Alignment.CenterEnd)
-                )
-            }
-        }
-
-        OutlinedCard(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(70.dp),
-            colors = CardDefaults.outlinedCardColors(
-                containerColor = Color.Transparent
-            )
-        ) {
-            Box(
-                modifier = modifier
-                    .fillMaxSize()
-            ) {
-                Text(
-                    text = planet.source,
-                    fontSize = 16.sp,
-                    modifier = modifier
-                        .padding(start = 16.dp)
-                        .align(Alignment.CenterStart)
-                )
-                IconButton(
-                    onClick = {
-                        getPlatform().openUrl(planet.wikiLink)
-                    },
-                    modifier = modifier
-                        .padding(end = 16.dp)
-                        .align(Alignment.CenterEnd)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Link,
-                        contentDescription = null
-                    )
-                }
-            }
-        }
-
+        DetailCard(label = "Order", value = planet.planetOrder.toString())
+        DetailCard(label = "Mass", value = planet.mass)
+        DetailCard(label = "Volume", value = planet.volume)
+        DetailCardWithIcon(
+            label = planet.source,
+            icon = Icons.Default.Link,
+            onClick = { getPlatform().openUrl(planet.wikiLink) }
+        )
     }
+}
 
+@Composable
+private fun DetailCard(
+    modifier: Modifier = Modifier,
+    label: String,
+    value: String
+) {
+    OutlinedCard(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(70.dp),
+        colors = CardDefaults.outlinedCardColors(
+            containerColor = Color.Transparent
+        )
+    ) {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+        ) {
+            Text(
+                text = label,
+                fontSize = 16.sp,
+                modifier = modifier
+                    .padding(start = 16.dp)
+                    .align(Alignment.CenterStart)
+            )
+            Text(
+                text = value,
+                fontSize = 16.sp,
+                modifier = modifier
+                    .padding(end = 16.dp)
+                    .align(Alignment.CenterEnd)
+            )
+        }
+    }
+}
 
+@Composable
+private fun DetailCardWithIcon(
+    modifier: Modifier = Modifier,
+    label: String,
+    icon: ImageVector,
+    onClick: () -> Unit
+) {
+    OutlinedCard(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(70.dp),
+        colors = CardDefaults.outlinedCardColors(
+            containerColor = Color.Transparent
+        )
+    ) {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+        ) {
+            Text(
+                text = label,
+                fontSize = 16.sp,
+                modifier = modifier
+                    .padding(start = 16.dp)
+                    .align(Alignment.CenterStart)
+            )
+            IconButton(
+                onClick = onClick,
+                modifier = modifier
+                    .padding(end = 16.dp)
+                    .align(Alignment.CenterEnd)
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null
+                )
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

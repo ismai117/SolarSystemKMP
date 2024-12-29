@@ -35,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -178,7 +179,6 @@ fun SharedTransitionScope.PageItem(
         }
 
     }
-
 }
 
 @Composable
@@ -187,7 +187,7 @@ fun PageNavigator(
     currentPage: Int,
     lastIndex: Int,
     animateScrollToPage: (Int) -> Unit
-){
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -195,40 +195,37 @@ fun PageNavigator(
             .padding(24.dp),
         horizontalArrangement = Arrangement.Center
     ) {
-        IconButton(
+        NavigationButton(
+            icon = Icons.Default.SkipPrevious,
             onClick = { animateScrollToPage(0) }
-        ) {
-            Icon(
-                imageVector = Icons.Default.SkipPrevious,
-                contentDescription = null
-            )
-        }
+        )
         Spacer(modifier = modifier.padding(8.dp))
-        IconButton(
+        NavigationButton(
+            icon = Icons.AutoMirrored.Default.KeyboardArrowLeft,
             onClick = { animateScrollToPage(currentPage - 1) }
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Default.KeyboardArrowLeft,
-                contentDescription = null
-            )
-        }
+        )
         Spacer(modifier = modifier.padding(8.dp))
-        IconButton(
+        NavigationButton(
+            icon = Icons.AutoMirrored.Default.KeyboardArrowRight,
             onClick = { animateScrollToPage(currentPage + 1) }
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
-                contentDescription = null
-            )
-        }
+        )
         Spacer(modifier = modifier.padding(8.dp))
-        IconButton(
+        NavigationButton(
+            icon = Icons.Default.SkipNext,
             onClick = { animateScrollToPage(lastIndex) }
-        ) {
-            Icon(
-                imageVector = Icons.Default.SkipNext,
-                contentDescription = null
-            )
-        }
+        )
+    }
+}
+
+@Composable
+fun NavigationButton(
+    icon: ImageVector,
+    onClick: () -> Unit
+) {
+    IconButton(onClick = onClick) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null
+        )
     }
 }
