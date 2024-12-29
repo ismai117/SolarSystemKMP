@@ -9,8 +9,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import planets.PlanetDetailScreen
-import planets.PlanetsScreen
+import planets.presentation.PlanetDetailScreen
+import planets.presentation.PlanetsScreen
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable

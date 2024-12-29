@@ -8,7 +8,6 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
@@ -21,11 +20,6 @@ kotlin {
     }
 
     jvm("desktop")
-
-    js() {
-        browser()
-        binaries.executable()
-    }
 
     wasmJs {
         browser()
@@ -44,7 +38,6 @@ kotlin {
         }
     }
 
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
     compilerOptions {
         languageVersion.set(KotlinVersion.KOTLIN_2_0)
     }
@@ -58,6 +51,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.koin.android)
+            implementation(libs.ktor.client.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -67,22 +61,21 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(project(":shared"))
+            api(libs.compose.adaptive)
+            api(libs.compose.adaptive.layout)
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.bundles.ktor.common)
             implementation(libs.bundles.koin.common)
-            implementation(libs.napier)
-            implementation(libs.windowSizeClass)
-            api("io.github.qdsfdhvh:image-loader:1.9.0")
+            implementation(libs.bundles.coil.common)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.ktor.client.java)
         }
-        jsMain.dependencies {
-            implementation(compose.html.core)
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }
