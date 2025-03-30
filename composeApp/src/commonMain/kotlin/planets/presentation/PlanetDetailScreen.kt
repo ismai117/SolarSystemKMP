@@ -198,7 +198,7 @@ private fun SharedTransitionScope.PlanetImage(
             modifier = modifier
                 .fillMaxSize()
                 .sharedElement(
-                    state = rememberSharedContentState(key = "image/${planet.planetId}"),
+                    sharedContentState = rememberSharedContentState(key = "image/${planet.planetId}"),
                     animatedVisibilityScope = animatedVisibilityScope,
                     boundsTransform = { _, _ ->
                         tween(durationMillis = 1000)
